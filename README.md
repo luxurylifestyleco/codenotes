@@ -16,21 +16,28 @@ CodeNotes is not a meeting-history browser. It is a meeting workspace: start or 
 - **Works offline-first.** Versioned local cache, derived-data persistence, manual corrections, pin/hide/reveal, and global search — all local, private by default.
 - **Light + dark themes**, VDX branding throughout, responsive desktop layout.
 
-## Run it
+## What is CodeNotes, and how do you run it?
 
+CodeNotes is a **web app that runs entirely in the Chrome browser**. There is nothing to install, no compiler, and no LLM to run: every feature — capture → live transcript → notes taker → summaries → search → export — is client-side JavaScript that computes in the browser. It works offline and stores everything locally.
+
+### Start it (one click)
+
+On Windows, double-click **`CodeNotes.bat`**:
+- it starts the local web server and opens **<http://localhost:8741>** in your default browser,
+- if the optional live-voice helper is installed, it starts that too.
+
+Alternatively run the two commands:
 ```bash
-# 1. Start the local Whisper STT server (optional; for live voice transcription)
-python local_stt_server.py            # serves on http://localhost:8010
-
-# 2. Serve the app
-python -m http.server 8741            # then open http://localhost:8741
+python -m http.server 8741           # serve the app, then open http://localhost:8741
+python local_stt_server.py           # optional: local Whisper for live voice on :8010
 ```
 
-In **Settings**, set:
-- an **AI provider** (OpenAI-compatible endpoint + key + model) to power notes generation and Ask,
-- the **STT endpoint** (point at `http://localhost:8010/v1/audio/transcriptions` or any OpenAI-compatible transcription host) for live voice capture.
+### The two optional "AI" pieces — bring your own, nothing to install on their side
 
-No provider is required to explore: import a transcript or load the sample meeting and use the offline summary fallback.
+1. **Notes / Ask / summaries AI** — the user pastes an **OpenAI-compatible endpoint + key + model** into Settings once. The browser calls *their* endpoint directly. No account, no separate app. Without it, summaries still work via the honest offline local extractor.
+2. **Live voice transcription** — the user points Settings → STT endpoint at the local Whisper helper (`http://localhost:8010/v1/audio/transcriptions`). Without it, meetings still work end-to-end via imported transcripts.
+
+There is **no LM to execute** for the person using CodeNotes. The AI they see is either their own BYOK endpoint or the local offline engine.
 
 ## Tests
 
