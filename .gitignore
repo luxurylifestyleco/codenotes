@@ -20,3 +20,12 @@ Thumbs.db
 # IDE / editor junk
 .idea/
 .vscode/
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
+__pycache__/
+
+# local-only packaging scratch (do not commit)
+installer/

@@ -64,4 +64,4 @@ Meeting data is sensitive. CodeNotes keeps everything local by default: transcri
 
 ## License
 
-Private — © VDX.
+Private — © Vedaxi FZ-LLC (a VDX product).
