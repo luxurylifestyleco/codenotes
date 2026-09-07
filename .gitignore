@@ -17,6 +17,6 @@ data/*.webm
 Thumbs.db
 *.log
 
-# Hermes / IDE
+# IDE / editor junk
 .idea/
 .vscode/

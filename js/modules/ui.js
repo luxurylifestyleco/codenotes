@@ -1060,7 +1060,7 @@
         m._sttRunning = true;
         setStatus('transcribing', 'Live — capturing + transcribing');
         const trStatus = document.querySelector('#trStatus');
-        if (trStatus) trStatus.textContent = 'Transcribing via local Whisper (Jyotish model)';
+        if (trStatus) trStatus.textContent = 'Transcribing via local Whisper…';
       } else if (res && res.reason !== 'stt-not-configured') {
         // Honest: never fake. Show why capture is off.
         const trStatus = document.querySelector('#trStatus');

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """CodeNotes · a VDX product — local Whisper STT server.
 
-OpenAI-compatible /v1/audio/transcriptions endpoint that serves the SAME
-faster-whisper model the Jyotish pipeline already uses on this machine
-(Systran/faster-distil-whisper-large-v3, weights already downloaded). No system
-ffmpeg needed — PyAV decodes the audio.
+OpenAI-compatible /v1/audio/transcriptions endpoint that serves a local
+faster-whisper model (Systran/faster-distil-whisper-large-v3). No system ffmpeg
+needed — PyAV decodes the audio.
 
 The model loads once and is kept hot, so live CodeNotes transcription is fast.
 
