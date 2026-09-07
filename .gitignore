@@ -1,0 +1,22 @@
+# Node / build
+node_modules/
+
+# Local audio test artifacts (speech fixtures are large)
+data/stt_test.mp3
+data/*.wav
+data/*.mp3
+data/*.webm
+
+# Local runtime / secrets
+.env
+*.key
+*.pem
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+
+# Hermes / IDE
+.idea/
+.vscode/
