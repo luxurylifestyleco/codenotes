@@ -76,6 +76,15 @@
   }
   window.__cnEscape = escapeHtml;
 
+  // ---- Inline SVG icons (category 4: SVG, not emoji) ----
+  const ICONS = {
+    pin: '<svg class="pi" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.5 1.5 14.5 6.5 12 7 9 11 6 8 2 11 5 8 2 5 6 4z" transform="rotate(45 8 8)"/></svg>',
+    edit: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M11 2.5 13.5 5 5.5 13H3v-2.5z"/></svg>',
+    generate: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M8 2 9.2 6.8 14 8 9.2 9.2 8 14 6.8 9.2 2 8 6.8 6.8z"/></svg>',
+    enhance: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M6 2.5 7 5.5 10 6.5 7 7.5 6 10.5 5 7.5 2 6.5 5 5.5z"/></svg>'
+  };
+  function ic(name) { return ICONS[name] || ''; }
+
   // ---- Theme ----
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
@@ -206,7 +215,7 @@
       <div class="meeting-head">
         <div class="meeting-head-row">
           <div style="flex:1">
-            <div class="mh-title"><input id="meetingTitleInput" value="${escapeHtml(m.title || '')}" aria-label="Meeting title" spellcheck="false"/>${m.pinned ? '<span class="pin-badge">📌</span>' : ''}</div>
+            <div class="mh-title"><input id="meetingTitleInput" value="${escapeHtml(m.title || '')}" aria-label="Meeting title" spellcheck="false"/>${m.pinned ? `<span class="pin-badge">${ic('pin')}</span>` : ''}</div>
             <div class="mh-meta">With: ${escapeHtml(who)} <span class="sep">·</span> ${escapeHtml(date)} ${status}</div>
             <div class="timeline"><span>${escapeHtml(elapsed)}</span><span class="sep">·</span><span>${escapeHtml(m.source)}{${caps.notetakercodes ? '' : ''}}</span></div>
           </div>
@@ -292,7 +301,7 @@
     panel.innerHTML = `
       <div class="notes-editor">
         <div class="note-block">
-          <div class="nb-label"><span class="ico">✎</span> Notes Taker</div>
+          <div class="nb-label"><span class="ico">${ic('edit')}</span> Notes Taker</div>
           <div class="nt-feed" id="ntFeed">${feedHtml}</div>
           <div class="nt-input-row">
             <input id="ntInput" placeholder="Type a note and press Enter… (e.g. 'Amit to own design sign-off, due Tue')"/>
@@ -308,7 +317,7 @@
               ${nt.allStyles().map((s) => `<option value="${s.id}" ${s.id === styleId ? 'selected' : ''}>${escapeHtml(s.label)}</option>`).join('')}
             </select>
             <span class="spacer"></span>
-            <button class="btn sm primary gen-btn" id="sumGenBtn">✦ Generate</button>
+            <button class="btn sm primary gen-btn" id="sumGenBtn">${ic('generate')} Generate</button>
           </div>
           <div class="style-desc" id="styleDesc">${escapeHtml(style.desc)}</div>
           <div class="summary-output ${n.summary ? '' : 'empty'}" id="summaryOut" contenteditable="true" data-source="${n._sumSource || (n.summary ? 'ai' : 'none')}">${escapeHtml(n.summary || 'No summary yet — click Generate, or use the notes taker above.')}</div>
@@ -399,15 +408,16 @@
     function runSummaryGeneration(silentRerender) {
       if (sumBtn) sumBtn.innerHTML = '<span class="spin"></span> Generating…';
       if (sumHint) sumHint.textContent = 'Generating summary…';
+      const restoreLabel = `<span>${ic('generate')} Generate</span>`;
       nt.generateSummary(m, styleSelect ? styleSelect.value : 'executive', (text, src) => {
         writeSummary(text, src || 'local');
-        if (sumBtn) sumBtn.textContent = '✦ Generate';
+        if (sumBtn) sumBtn.innerHTML = restoreLabel;
         if (sumHint) sumHint.textContent = !intel.AI.configured()
           ? 'Using offline local summary (no AI configured). A future enhancer can slot in here.'
           : 'Summary generated from meeting notes + transcript.';
       }, (errMsg, fallback) => {
         writeSummary(fallback, 'local');
-        if (sumBtn) sumBtn.textContent = '✦ Generate';
+        if (sumBtn) sumBtn.innerHTML = restoreLabel;
         if (sumHint) sumHint.textContent = 'AI unavailable (' + errMsg + '). Shown: offline local summary. This gap is ready for an enhancer.';
       });
     }
@@ -504,7 +514,7 @@
           <button class="mode-tab active" data-mode="raw">Raw</button>
           <button class="mode-tab" data-mode="enhanced">Enhanced</button>
         </div>
-        <button class="btn sm ghost" id="enhanceBtn" title="Send to AI for punctuation/word fixes">✨ Enhance</button>
+        <button class="btn sm ghost" id="enhanceBtn" title="Send to AI for punctuation/word fixes">${ic('enhance')} Enhance</button>
         <span class="spacer"></span>
         <span class="capture-src" id="enhFeedback"></span>
       </div>

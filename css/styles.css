@@ -38,7 +38,7 @@
              Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
                Consolas, monospace;
-  --fs-xs: 11px;
+  --fs-xs: 12px;
   --fs-sm: 12.5px;
   --fs-base: 13.5px;
   --fs-md: 15px;
@@ -243,6 +243,11 @@ p { margin: 0; }
 .meeting-head .mh-meta { color: var(--text-muted); font-size: var(--fs-sm); margin-top: var(--sp-2); }
 .meeting-head .mh-meta .sep { margin: 0 var(--sp-2); color: var(--text-faint); }
 .pin-badge { font-size: var(--fs-xs); color: #d97706; }
+.pin-badge svg, .ico-svg { width: 1.05em; height: 1.05em; vertical-align: -0.15em; display: inline-block; }
+.nb-label .ico { line-height: 1; display: inline-flex; align-items: center; }
+.nb-label .ico svg { width: 1.15em; height: 1.15em; }
+.gen-btn, #enhanceBtn { display: inline-flex; align-items: center; gap: 6px; }
+.gen-btn svg, #enhanceBtn svg { width: 1em; height: 1em; }
 
 .timeline { display: flex; align-items: center; gap: var(--sp-2); margin-top: var(--sp-3); font-size: var(--fs-sm);
   color: var(--text-muted); }
