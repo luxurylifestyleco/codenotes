@@ -81,7 +81,13 @@
     pin: '<svg class="pi" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.5 1.5 14.5 6.5 12 7 9 11 6 8 2 11 5 8 2 5 6 4z" transform="rotate(45 8 8)"/></svg>',
     edit: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M11 2.5 13.5 5 5.5 13H3v-2.5z"/></svg>',
     generate: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M8 2 9.2 6.8 14 8 9.2 9.2 8 14 6.8 9.2 2 8 6.8 6.8z"/></svg>',
-    enhance: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M6 2.5 7 5.5 10 6.5 7 7.5 6 10.5 5 7.5 2 6.5 5 5.5z"/></svg>'
+    enhance: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M6 2.5 7 5.5 10 6.5 7 7.5 6 10.5 5 7.5 2 6.5 5 5.5z"/></svg>',
+    summary: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M2 2.5h7M2 6h12M2 9.5h7M2 13h12"/></svg>',
+    point: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 4.5 8 8l-4 3.5M9 4.5 13 8l-4 3.5"/></svg>',
+    decision: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8.5 5.5 12 14 4"/></svg>',
+    action: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M13 8l-3-3M13 8l-3 3"/></svg>',
+    follow: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M13 4 7 10M4 7l5 5M13 13H3"/></svg>',
+    resource: '<svg class="ico-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="1.5"/></svg>'
   };
   function ic(name) { return ICONS[name] || ''; }
 
@@ -102,6 +108,7 @@
     el.statusPill.className = 'status-pill ' + (state || 'idle');
     el.statusText.textContent = text || 'Ready';
   }
+  function meetingCount(n) { return n + ' meeting' + (n === 1 ? '' : 's') + ' loaded'; }
 
   // ---- Sidebar rendering ----
   function renderSidebar() {
@@ -217,7 +224,7 @@
           <div style="flex:1">
             <div class="mh-title"><input id="meetingTitleInput" value="${escapeHtml(m.title || '')}" aria-label="Meeting title" spellcheck="false"/>${m.pinned ? `<span class="pin-badge">${ic('pin')}</span>` : ''}</div>
             <div class="mh-meta">With: ${escapeHtml(who)} <span class="sep">·</span> ${escapeHtml(date)} ${status}</div>
-            <div class="timeline"><span>${escapeHtml(elapsed)}</span><span class="sep">·</span><span>${escapeHtml(m.source)}{${caps.notetakercodes ? '' : ''}}</span></div>
+            <div class="timeline"><span>${escapeHtml(elapsed)}</span><span class="sep">·</span><span>${escapeHtml(m.source)}</span></div>
           </div>
         </div>
         ${m.status === 'live' ? renderLiveBar(m) : ''}
@@ -310,7 +317,7 @@
         </div>
 
         <div class="note-block">
-          <div class="nb-label"><span class="ico">↳</span> Summary</div>
+          <div class="nb-label"><span class="ico">${ic('summary')}</span> Summary</div>
           <div class="style-bar">
             <span class="style-label">Style</span>
             <select id="styleSelect">
@@ -327,32 +334,32 @@
         <div style="display:flex;gap:20px;flex-wrap:wrap">
           <div style="flex:1;min-width:240px">
             <div class="note-block">
-              <div class="nb-label"><span class="ico">◆</span> Key Points</div>
+              <div class="nb-label"><span class="ico">${ic('point')}</span> Key Points</div>
               <div class="notes-editor-list" data-nk="keyPoints">${renderStringList(n.keyPoints, 'keyPoints')}</div>
               <button class="btn sm ghost addNoteBtn" data-nk="keyPoints">+ Add point</button>
             </div>
           </div>
           <div style="flex:1;min-width:240px">
             <div class="note-block">
-              <div class="nb-label"><span class="ico">✓</span> Decisions</div>
+              <div class="nb-label"><span class="ico">${ic('decision')}</span> Decisions</div>
               <div class="notes-editor-list" data-nk="decisions">${renderStringList(n.decisions, 'decisions')}</div>
               <button class="btn sm ghost addNoteBtn" data-nk="decisions">+ Add decision</button>
             </div>
           </div>
         </div>
         <div class="note-block">
-          <div class="nb-label"><span class="ico">→</span> Action Items</div>
+          <div class="nb-label"><span class="ico">${ic('action')}</span> Action Items</div>
           <div class="notes-editor-list" data-nk="actionItems">${renderActionList(n.actionItems, m)}</div>
           <button class="btn sm ghost addNoteBtn" data-nk="actionItems">+ Add action</button>
         </div>
         <div style="display:flex;gap:20px;flex-wrap:wrap">
           <div style="flex:1;min-width:240px">
-            <div class="note-block"><div class="nb-label"><span class="ico">↝</span> Follow-ups</div>
+            <div class="note-block"><div class="nb-label"><span class="ico">${ic('follow')}</span> Follow-ups</div>
               <div class="notes-editor-list" data-nk="followUps">${renderStringList(n.followUps, 'followUps')}</div>
               <button class="btn sm ghost addNoteBtn" data-nk="followUps">+ Add follow-up</button></div>
           </div>
           <div style="flex:1;min-width:240px">
-            <div class="note-block"><div class="nb-label"><span class="ico">◉</span> Resources</div>
+            <div class="note-block"><div class="nb-label"><span class="ico">${ic('resource')}</span> Resources</div>
               <div class="notes-editor-list" data-nk="resources">${renderStringList(n.resources || [], 'resources')}</div>
               <button class="btn sm ghost addNoteBtn" data-nk="resources">+ Add resource</button></div>
           </div>
@@ -1114,7 +1121,7 @@
     store.update(m.id, { status: 'final', endedAt: new Date().toISOString() });
     renderMeeting(m);
     renderSidebar();
-    setStatus('idle', 'Meeting finalized — ' + store.countVisible() + ' meetings loaded');
+    setStatus('idle', 'Meeting finalized — ' + meetingCount(store.countVisible()));
     toast('Meeting finalized. Post-meeting processing runs locally.', 'ok');
   }
 
@@ -1158,7 +1165,7 @@
     const first = store.all().find((m) => !m.hidden);
     if (first) selectMeeting(first.id); else renderEmptyWorkspace();
 
-    setStatus('idle', 'Ready — ' + store.countVisible() + ' meetings loaded');
+    setStatus('idle', 'Ready — ' + meetingCount(store.countVisible()));
   }
 
   // Export the namespace for app.js / tests

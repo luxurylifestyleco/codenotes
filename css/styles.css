@@ -237,9 +237,9 @@ p { margin: 0; }
 .meeting-head { margin-bottom: var(--sp-6); }
 .meeting-head-row { display: flex; align-items: flex-start; gap: var(--sp-4); }
 .meeting-head .mh-title { font-size: var(--fs-2xl); font-weight: 700; letter-spacing: -.02em;
-  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; width: 100%; }
 .meeting-head .mh-title input { font-size: var(--fs-2xl); font-weight: 700; border: none; background: transparent;
-  border-bottom: 1px dashed transparent; padding: 2px 4px; min-width: 200px; }
+  border-bottom: 1px dashed transparent; padding: 2px 4px; min-width: 0; width: 100%; max-width: 640px; flex: 1 1 auto; }
 .meeting-head .mh-title input:hover { border-bottom-color: var(--border-strong); }
 .meeting-head .mh-title input:focus { border-bottom-color: var(--accent); box-shadow: none; }
 .meeting-head .mh-meta { color: var(--text-muted); font-size: var(--fs-sm); margin-top: var(--sp-2); }
