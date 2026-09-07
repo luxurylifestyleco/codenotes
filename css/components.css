@@ -209,7 +209,8 @@ body.nav * :focus { outline-color: var(--accent); }
 .nt-clock { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); padding-top: 2px; flex: none; width: 74px; }
 .nt-bullet { color: var(--accent); flex: none; padding-top: 1px; }
 .nt-text-holder { flex: 1; font-size: var(--fs-base); line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
-.nt-del { opacity: 0; transition: opacity .15s; }
+.nt-del { opacity: 0; transition: opacity .15s; display: inline-flex; align-items: center; justify-content: center; width: 28px !important; height: 28px !important; font-size: 15px; border-radius: 6px; }
+.nt-del:hover { background: var(--bg-active); }
 .nt-entry:hover .nt-del { opacity: 1; }
 .nt-input-row { display: flex; gap: var(--sp-2); margin-top: var(--sp-2); align-items: center; }
 .nt-input-row input { flex: 1; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-raise); }

@@ -242,7 +242,7 @@
       <span class="nt-clock">${escapeHtml(formatClock(entry.ts))}</span>
       <span class="nt-bullet">•</span>
       <span class="nt-text-holder">${escapeHtml(entry.text)}</span>
-      <button class="icon-btn nt-del" data-nid="${entry.id}" title="Delete note" style="width:22px;height:22px">×</button>
+      <button class="icon-btn nt-del" data-nid="${entry.id}" title="Delete note" aria-label="Delete note" style="width:22px;height:22px">×</button>
     </div>`;
   }
   function escapeHtml(s) {

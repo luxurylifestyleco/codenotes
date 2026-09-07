@@ -448,7 +448,7 @@
 
   function renderStringList(items, key) {
     return (items || []).map((s, i) =>
-      `<div class="nb-item"><span class="bullet">•</span><input style="flex:1;border:none;background:transparent;border-bottom:1px dashed var(--border-strong);padding:2px" data-nk="${key}" data-idx="${i}" value="${escapeHtml(s)}"/><button class="icon-btn" data-del="${key}" data-idx="${i}" title="Remove" style="width:22px;height:22px">×</button></div>`
+      `<div class="nb-item"><span class="bullet">•</span><input style="flex:1;border:none;background:transparent;border-bottom:1px dashed var(--border-strong);padding:2px" data-nk="${key}" data-idx="${i}" value="${escapeHtml(s)}"/><button class="icon-btn" data-del="${key}" data-idx="${i}" title="Remove" aria-label="Remove" style="width:22px;height:22px">×</button></div>`
     ).join('');
   }
 
@@ -461,7 +461,7 @@
         <input style="flex:2;min-width:120px;border:none;background:transparent;border-bottom:1px dashed var(--border-strong);padding:2px" data-nk="actionItems" data-field="task" data-idx="${i}" value="${escapeHtml(a.task || '')}" placeholder="Action task"/>
         <input style="flex:1;min-width:90px;border:none;background:transparent;border-bottom:1px dashed var(--border-strong);padding:2px" data-nk="actionItems" data-field="owner" data-idx="${i}" value="${escapeHtml(owner)}" placeholder="Owner"/>
         <input type="date" data-nk="actionItems" data-field="due" data-idx="${i}" value="${escapeHtml(due)}" title="Due date (only set if explicit)"/>
-        <button class="icon-btn" data-del="actionItems" data-idx="${i}" title="Remove" style="width:22px;height:22px">×</button>
+        <button class="icon-btn" data-del="actionItems" data-idx="${i}" title="Remove" aria-label="Remove" style="width:22px;height:22px">×</button>
       </div>`;
     }).join('');
   }

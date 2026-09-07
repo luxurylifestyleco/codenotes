@@ -162,8 +162,10 @@ p { margin: 0; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 
 .icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
-  border-radius: var(--radius-sm); border: 1px solid transparent; background: transparent; color: var(--text-muted); }
+  border-radius: var(--radius-sm); border: 1px solid transparent; background: transparent; color: var(--text-muted);
+  transition: background .15s ease, color .15s ease, transform .08s ease; }
 .icon-btn:hover { background: var(--bg-hover); color: var(--text); }
+.icon-btn:active { transform: scale(0.94); }
 .icon-btn svg { width: 17px; height: 17px; }
 
 .theme-toggle .sun { display: none; }
