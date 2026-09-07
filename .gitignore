@@ -21,7 +21,7 @@ Thumbs.db
 .idea/
 .vscode/
 
-# PyInstaller build artifacts
+# PyInstaller build artifacts (browser product - no exe ships, but guard anyway)
 build/
 dist/
 *.spec
