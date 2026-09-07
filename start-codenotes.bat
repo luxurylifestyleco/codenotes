@@ -5,22 +5,16 @@ REM  Boots the local Whisper STT server + the web app, then opens your browser.
 REM  Usage:  double-click  start-codenotes.bat   (after running install.bat once)
 REM ============================================================================
 setlocal
-set "PYTHON=%USERPROFILE%\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe"
-if not exist "%PYTHON%" (
-  echo [!] Hermes venv not found. Trying a local venv...
-  set "PYTHON=.venv\Scripts\python.exe"
-  if not exist "%PYTHON%" (
-    echo [X] No python found. Run install.bat first, or install Python + deps.
-    pause
-    exit /b 1
-  )
-)
 set "DIR=%~dp0"
+REM Prefer a local .venv created by install.bat; fall back to system python.
+set "PY=%DIR%.venv\Scripts\python.exe"
+if not exist "%PY%" set "PY=python"
+
 echo [I] Starting local Whisper STT on http://localhost:8010 ...
-start "CodeNotes-Whisper" cmd /k ""%PYTHON%" "%DIR%local_stt_server.py" --port 8010"
+start "CodeNotes-Whisper" cmd /k ""%PY%" "%DIR%local_stt_server.py" --port 8010"
 
 echo [I] Starting CodeNotes web app on http://localhost:8741 ...
-start "CodeNotes-App" cmd /k ""%PYTHON%" -m http.server 8741 --directory "%DIR%""
+start "CodeNotes-App" cmd /k ""%PY%" -m http.server 8741 --directory "%DIR%""
 
 timeout /t 4 >nul
 echo [I] Opening browser...

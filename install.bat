@@ -2,8 +2,7 @@
 REM ============================================================================
 REM  CodeNotes - a VDX product  |  installer (provisions deps + optional exe)
 REM  Creates a local venv, installs the STT + web deps, and (optionally) builds a
-REM  standalone code-notes.exe via PyInstaller so you can run without a Python
-REM  install on the target machine.
+REM  standalone code-notes.exe via PyInstaller.
 REM ============================================================================
 setlocal
 set "PYTHON=python"
@@ -12,19 +11,21 @@ echo =====================================================================
 echo   CodeNotes installer - a VDX product
 echo =====================================================================
 
-REM 1. Detect a python with the deps already (reuse hermes venv if present)
-set "HERMES_PY=%USERPROFILE%\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe"
-set "TARGET_PY=%HERMES_PY%"
-if exist "%TARGET_PY%" (
-  echo [I] Reusing existing hermes venv python (has faster-whisper already).
-) else (
-  echo [I] Using system python; will create local venv.
-  "%PYTHON%" --version >nul 2>&1 || (
-    echo [X] Python 3 not found. Install Python from python.org and re-run.
-    pause & exit /b 1
-  )
-  "%PYTHON%" -m venv .venv
-  set "TARGET_PY=.venv\Scripts\python.exe"
+REM 1. Find a python to provision a local venv.
+where "%PYTHON%" >nul 2>nul || (
+  echo [X] Python 3 not found. Install Python from python.org and re-run.
+  pause & exit /b 1
+)
+"%PYTHON%" -c "import sys; sys.exit(0 if sys.version_info >= (3,9) else 1)" >nul 2>nul || (
+  echo [X] Python 3.9+ required. Install a newer Python from python.org.
+  pause & exit /b 1
+)
+
+REM 2. Create (or reuse) a local venv.
+set "TARGET_PY=.venv\Scripts\python.exe"
+if not exist "%TARGET_PY%" (
+  echo [I] Creating local venv...
+  "%PYTHON%" -m venv .venv || ( echo [X] venv creation failed. & pause & exit /b 1 )
 )
 
 echo [I] Ensuring STT dependencies (fastapi, uvicorn, av, numpy, faster-whisper)...
@@ -40,8 +41,7 @@ echo [I] Ensuring STT dependencies (fastapi, uvicorn, av, numpy, faster-whisper)
 echo.
 echo =====================================================================
 echo   Optional: build a standalone code-notes.exe installer?
-echo   (This packages the app + STT server into one exe via PyInstaller.
-echo    Requires internet the first time.)
+echo   (Packages the STT server into one exe via PyInstaller.)
 echo =====================================================================
 choice /c YN /m "Build standalone code-notes.exe now"
 if errorlevel 2 (
